@@ -11,21 +11,22 @@ import com.example.umaincomposable.models.RestaurantList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class MainPageModel : ViewModel() {
-    var result: RestaurantList? = null
+    val result: MutableStateFlow<List<Restaurant>> = MutableStateFlow(emptyList())
 
     init {
         viewModelScope.launch {
             getRestaurants()
-            println(result)
+            println(result.value)
         }
     }
     suspend fun getRestaurants(){
             val apiHelper: ApiHelper = ApiHelper(RetrofitBuilder.apiService)
             val mainRepository = MainRepository(apiHelper)
             println("IM HERE")
-            result = mainRepository.getRestaurants()
+            result.value = mainRepository.getRestaurants().restaurants
     }
 }
