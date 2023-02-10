@@ -58,18 +58,12 @@ fun OptionsLane() {
 }
 
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun RestaurantsList(mainPageModel: MainPageModel) {
-    val coroutineScope = CoroutineScope(Dispatchers.Default)
 
-    coroutineScope.launch {
-        mainPageModel.getRestaurants()
-        println(mainPageModel.result)
-    }
     val res = mainPageModel.result?.restaurants?.toMutableStateList()
-    println("SUPPOSED TO BE HERE")
     println(res)
+
     if (res != null) {
         for (restaurant in res) {
             Row(verticalAlignment = Alignment.CenterVertically) {
